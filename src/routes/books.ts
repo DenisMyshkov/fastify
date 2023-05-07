@@ -1,3 +1,4 @@
+import { AuthController } from "../controllers/authentication";
 import { BooksController } from "../controllers/books";
 
 //Options for get all books
@@ -9,59 +10,60 @@ const getBooksOpts = {
         items: {
           type: "object",
           properties: {
-            id: {type: "string"},
-            name: {type: "string"},
-            description: {type: "string"},
-            year: {type: "string"},
-            author: {type: "string"},
-          }
-        }
+            id: { type: "string" },
+            name: { type: "string" },
+            description: { type: "string" },
+            year: { type: "string" },
+            author: { type: "string" },
+          },
+        },
       },
       404: {
         type: "object",
-        properties: { error: { type: "string"} }
-      }
-    }
+        properties: { error: { type: "string" } },
+      },
+    },
   },
-  handler: BooksController.getBooks
-}
+  preHandler: AuthController.verifyTocken,
+  handler: BooksController.getBooks,
+};
 
 const postBookOpts = {
   schema: {
     body: {
-      type: 'object',
-      required: ['name', 'description', 'year', 'author'],
+      type: "object",
+      required: ["name", "description", "year", "author"],
       properties: {
-        name: { type: 'string' },
-        description: {type: "string"},
-        year: {type: "string"},
-        author: {type: "string"},
+        name: { type: "string" },
+        description: { type: "string" },
+        year: { type: "string" },
+        author: { type: "string" },
       },
     },
     response: {
       201: {
         type: "object",
         properties: {
-          id: {type: "string"},
-          name: {type: "string"},
-          description: {type: "string"},
-          year: {type: "string"},
-          author: {type: "string"},
-          }
+          id: { type: "string" },
+          name: { type: "string" },
+          description: { type: "string" },
+          year: { type: "string" },
+          author: { type: "string" },
         },
+      },
       404: {
-        properties: { error: { type: "string"} }
-      }
-    }
+        properties: { error: { type: "string" } },
+      },
+    },
   },
-  handler: BooksController.addBook
-  }
+  preHandler: AuthController.verifyTocken,
+  handler: BooksController.addBook,
+};
 
-async function bookRoutes (fastify: any, options: any, done: any) {
+async function bookRoutes(fastify: any, opts: any, done: any) {
+  fastify.get("/books", getBooksOpts);
 
-  fastify.get('/', getBooksOpts);
-
-  fastify.post('/', postBookOpts);
+  fastify.post("/", postBookOpts);
 
   done();
 }

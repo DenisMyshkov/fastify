@@ -1,8 +1,14 @@
-import fastify from 'fastify'
+import { fastify } from "fastify";
 import { bookRoutes } from "./routes/books";
+import { userRoutes } from "./routes/users";
+import { fastifyJwt } from "@fastify/jwt";
 
-const server = fastify({logger: true})
-server.register(bookRoutes)
+export const server = fastify({ logger: true });
+server.register(fastifyJwt, {
+  secret: "supersecret",
+});
+server.register(bookRoutes);
+server.register(userRoutes);
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {

@@ -8,19 +8,13 @@ import {
 import "reflect-metadata";
 
 @Entity()
-export class Book extends BaseEntity {
+export class User extends BaseEntity {
   @ObjectIdColumn()
   id: number;
 
   @Column()
-  name: string;
+  userName: string;
 
   @Column()
-  description: string;
-
-  @Column()
-  year: string;
-
-  @Column()
-  author: string;
+  hashedPassword: string;
 }

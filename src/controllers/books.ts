@@ -2,19 +2,18 @@ import { BooksService } from "../services/BooksService";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { IBook } from "../interfaces/Book";
 
-const { v4:uuidv4 } = require('uuid')
+const { v4: uuidv4 } = require("uuid");
 
 class BooksController {
-
   static async getBooks(req: FastifyRequest, reply: FastifyReply) {
     try {
       const books = await BooksService.getBooks();
       reply
-          .code(200)
-          .header('Content-Type', 'application/json; charset=utf-8')
-          .send(books);
+        .code(200)
+        .header("Content-Type", "application/json; charset=utf-8")
+        .send(books);
     } catch (err) {
-      reply.code(404).send({ error: "Not found"} );
+      reply.code(404).send({ error: "Not found" });
     }
   }
 
@@ -26,13 +25,13 @@ class BooksController {
       description: bookData.description,
       year: bookData.year,
       author: bookData.author,
-    }
+    };
 
     try {
       const createdBook = await BooksService.addBook(book);
       reply.code(201).send(createdBook);
     } catch (err) {
-      reply.code(400).send({ error: "Bad Request" })
+      reply.code(400).send({ error: "Bad Request" });
     }
   }
 }

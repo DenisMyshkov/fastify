@@ -3,14 +3,13 @@ import { IBook } from "../interfaces/Book";
 import { InsertResult } from "typeorm";
 
 class BooksService {
+  static async getBooks(): Promise<IBook[]> {
+    return BooksRepository.getBooks();
+  }
 
-    static async getBooks(): Promise<IBook[]> {
-        return BooksRepository.getBooks()
-    }
-
-    static async addBook(book: IBook): Promise<InsertResult> {
-        return BooksRepository.addBook(book)
-    }
+  static async addBook(book: IBook): Promise<InsertResult> {
+    return BooksRepository.addBook(book);
+  }
 }
 
 export { BooksService };
